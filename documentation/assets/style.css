@@ -1,0 +1,92 @@
+@import url('https://api.data.bingo/font/?family=gerstner-programm');
+
+:root{
+    --theme-font-family: 'Gerstner Programm';
+    --theme-background-color : #FAFAFA;
+    --theme-global-padding : 15px;
+}
+
+/*–––––––––––––––––––––––––––––––––––––––
+                 GLOBAL
+–––––––––––––––––––––––––––––––––––––––*/
+
+*{
+    margin: 0;
+    padding: 0;
+    font-weight: lighter;
+    list-style: none;
+    outline: none;
+    box-sizing: border-box;
+}
+
+:not(span){
+    font-family: var(--theme-font-family);
+}
+
+html{
+    background-color: var(--theme-background-color);
+}
+
+a{
+    color:#000000;
+    text-decoration: none;
+}
+
+a:hover{
+    text-decoration: underline;
+}
+
+/*–––––––––––––––––––––––––––––––––––––––
+                SECTION
+–––––––––––––––––––––––––––––––––––––––*/
+
+section{
+    max-width: 800px;
+    margin:0 auto;
+    padding:var(--theme-global-padding);
+}
+
+/*–––––––––––––––––––––––––––––––––––––––
+                ARTICLE
+–––––––––––––––––––––––––––––––––––––––*/
+
+article{
+  margin-top: 50px;
+}
+
+article .methode.item{
+  margin-top: 40px;
+}
+
+h1,h2,h3,h4{
+  font-weight: 500;
+  color:#333;
+}
+
+h1{
+  font-size: 50px; 
+}
+
+h2{
+  font-size: 40px;
+  margin-top: 100px;
+  margin-bottom: 15px;
+  font-weight: lighter;
+}
+
+h3{
+  font-size: 25px;
+  font-weight: bold;
+  margin-top: 70px;
+  margin-bottom: 5px;
+}
+
+h4{
+  font-size: 16px;
+  margin: 20px 0 5px 0;
+}
+
+.example{
+  background-color: #FFD700;
+  border-radius: 20px;
+}

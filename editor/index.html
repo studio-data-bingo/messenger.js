@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
+	<title>Messenger.js style editor</title>
+	<link rel="stylesheet" href="./assets/style.css">
+	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
+	<script src="./assets/app.js" defer></script>
+
+	<!-- MESSENGER.JS -->
+	<script src="../dist/messenger.min.js"></script>
+	<link rel="stylesheet" href="../dist/messenger.css">
+	<!------------------>
+</head>
+<body>
+	<section>
+		<header>
+			<h1 id="title">Messenger.js Style Editor</h1>
+			<p id="description">
+				<strong>Messenger.js</strong> is a library for easily creating a chat interface and managing message generation<br/>
+				<br/>
+				<strong>Tips :</strong> By changing the size of the window you can modify the parameters to create your css variable for your media queries
+			</p>
+			<pre><code id="css"></code></pre>
+		</header>
+			<div class="example">
+				<div id="chat"></div>
+			</div>
+			<script>
+				const options = {
+					container:"#chat",
+					automaticScroll: false,
+					speed: 100
+				}
+				let messenger = new Messenger(options);
+
+				let ElToUpdate;
+				let count = 0;
+				messenger.receiver.text(
+					"Je suis un text modifiable",
+					{
+						comment: "Cliquez pour modifier le texte",
+						callback: (el) => {
+							ElToUpdate = el;
+						}
+					}
+				);
+
+				$(document).click(() => {
+					messenger.update(ElToUpdate, "text", "J'ai été modifié : "+count+++" fois");
+				});
+				
+				messenger.receiver.text("Les fans de l’Eurovision vont peut-être pouvoir se consoler. Inspirés par le concours européen de chansons qui a dû être annulé pour cause de pandémie de Covid-19, des équipes de 13 pays européens et l’Australie ont composé des chansons à partir de programmes d’intelligence artificielle pour participer à l’AI Song Context.<br/>Sponsorisée par Vpro, le groupe audiovisuel public des Pays-Bas où devait avoir lieu l’Eurovision cette année, la compétition est ouverte aux passionnés de musique, des ingénieurs, des scientifiques spécialistes des données et des programmeurs informatiques.");
+				messenger.sender.text("Les fans de l’Eurovision vont peut-être pouvoir se consoler. Inspirés par le concours européen de chansons qui a dû être annulé pour cause de pandémie de Covid-19, des équipes de 13 pays européens et l’Australie ont composé des chansons à partir de programmes d’intelligence artificielle pour participer à l’AI Song Context.<br/>Sponsorisée par Vpro, le groupe audiovisuel public des Pays-Bas où devait avoir lieu l’Eurovision cette année, la compétition est ouverte aux passionnés de musique, des ingénieurs, des scientifiques spécialistes des données et des programmeurs informatiques.");
+
+				messenger.receiver.text("Bonjour je suis Robert de Barretin", {comment: "commentaire d'image", callback: (el) => { console.log(el) }});
+				messenger.sender.text("Bonjour Robert !");
+				messenger.sender.text("Comment vas tu ?");
+				messenger.receiver.text("Bien");
+				messenger.receiver.image('https://data.bingo/img/projects/robert_medium_3.png', {comment: "commentaire d'image", callback: (el) => { console.log(el) }});
+				messenger.receiver.audio('https://sandbox.data.bingo/roue-des-datapepettes/sounds/animals/canard.mp3', {comment: "commentaire d'audio", callback: (el) => { /*el.play();*/ }});
+				messenger.receiver.video('https://www.youtube.com/embed/SibEBm32tA0', {comment: "commentaire de vidéo", callback: (el) => {console.log(el)}});
+				
+				messenger.sender.link({url: "https://www.courrierinternational.com/article/chansons-des-programmes-dintelligence-artificielle-font-leur-eurovision",title: "Des programmes d’intelligence artificielle font leur Eurovision",source: "Courrierinternational.com",img: "https://www.courrierinternational.com/sites/ci_master/themes/ci/images/facebook_img_defaut.png"}, {comment: "Powered by <a href=\"https://newsapi.org/\" target=\"_blank\">NewsAPI</a>", callback: (el) => { console.log(el) }});
+
+				messenger.receiver.link({url: "https://www.courrierinternational.com/article/chansons-des-programmes-dintelligence-artificielle-font-leur-eurovision",title: "Des programmes d’intelligence artificielle font leur Eurovision",source: "Courrierinternational.com"}, {comment: "Commentaire de lien sans image", callback: (el) => { console.log(el) }});
+				
+				messenger.receiver.canvas({comment:"commentaire de canvas", callback: (canvas, ctx) => { console.log(canvas); ctx.fillStyle = '#ff0000'; ctx.fillRect(0, 0, canvas.width, canvas.height); }});
+				
+				messenger.receiver.card({img: "https://www.courrierinternational.com/sites/ci_master/files/styles/image_original_1280/public/assets/images/ev884g6waaaoa_p.jpg?itok=moGb6IEu", title: "Des programmes d’intelligence artificielle font leur Eurovision", subtitle: "Intelligence artificielle", description: "Les fans de l’Eurovision vont peut-être pouvoir se consoler. Inspirés par le concours européen de chansons qui a dû être annulé pour cause de pandémie de Covid-19, des équipes de 13 pays européens et l’Australie ont composé des chansons à partir de programmes d’intelligence artificielle pour participer à l’AI Song Context.<br/>Sponsorisée par Vpro, le groupe audiovisuel public des Pays-Bas où devait avoir lieu l’Eurovision cette année, la compétition est ouverte aux passionnés de musique, des ingénieurs, des scientifiques spécialistes des données et des programmeurs informatiques.", url: "https://www.courrierinternational.com/article/chansons-des-programmes-dintelligence-artificielle-font-leur-eurovision"
+				}, {comment: "commentaire de carte", callback: (el) => { console.log(el) }});
+				messenger.sender.card({title: "Des programmes d’intelligence artificielle font leur Eurovision", subtitle: "Intelligence artificielle", description: "Les fans de l’Eurovision vont peut-être pouvoir se consoler. Inspirés par le concours européen de chansons qui a dû être annulé pour cause de pandémie de Covid-19, des équipes de 13 pays européens et l’Australie ont composé des chansons à partir de programmes d’intelligence artificielle pour participer à l’AI Song Context.<br/>Sponsorisée par Vpro, le groupe audiovisuel public des Pays-Bas où devait avoir lieu l’Eurovision cette année, la compétition est ouverte aux passionnés de musique, des ingénieurs, des scientifiques spécialistes des données et des programmeurs informatiques.", url: "https://www.courrierinternational.com/article/chansons-des-programmes-dintelligence-artificielle-font-leur-eurovision"
+				}, {comment: "commentaire de carte", callback: (el) => { console.log(el) }});
+				messenger.receiver.card({title: "Des programmes d’intelligence artificielle font leur Eurovision", subtitle: "Intelligence artificielle", description: "Les fans de l’Eurovision vont peut-être pouvoir se consoler. Inspirés par le concours européen de chansons qui a dû être annulé pour cause de pandémie de Covid-19, des équipes de 13 pays européens et l’Australie ont composé des chansons à partir de programmes d’intelligence artificielle pour participer à l’AI Song Context.<br/>Sponsorisée par Vpro, le groupe audiovisuel public des Pays-Bas où devait avoir lieu l’Eurovision cette année, la compétition est ouverte aux passionnés de musique, des ingénieurs, des scientifiques spécialistes des données et des programmeurs informatiques."
+				}, {comment: "commentaire de carte", callback: (el) => { console.log(el) }});
+				messenger.sender.card({title: "Des programmes d’intelligence artificielle font leur Eurovision", description: "Les fans de l’Eurovision vont peut-être pouvoir se consoler. Inspirés par le concours européen de chansons qui a dû être annulé pour cause de pandémie de Covid-19, des équipes de 13 pays européens et l’Australie ont composé des chansons à partir de programmes d’intelligence artificielle pour participer à l’AI Song Context.<br/>Sponsorisée par Vpro, le groupe audiovisuel public des Pays-Bas où devait avoir lieu l’Eurovision cette année, la compétition est ouverte aux passionnés de musique, des ingénieurs, des scientifiques spécialistes des données et des programmeurs informatiques."
+				}, {comment: "commentaire de carte", callback: (el) => { console.log(el) }});
+
+				messenger.receiver.list("Liste projets", [{primary: "Purple Soup",secondary: "La boîte à outils pour générer des paroles de chansons à l’aide de l’intelligence artificielle",img: "https://i2.wp.com/www.foodrepublic.com/wp-content/uploads/2018/03/purplesoup.jpg?fit=2200%2C2190&ssl=1"},{primary: "Purple Soup",secondary: "La boîte à outils pour générer des paroles de chansons à l’aide de l’intelligence artificielle",img: "https://i2.wp.com/www.foodrepublic.com/wp-content/uploads/2018/03/purplesoup.jpg?fit=2200%2C2190&ssl=1"},{primary: "Purple Soup",secondary: "La boîte à outils pour générer des paroles de chansons à l’aide de l’intelligence artificielle",img: "https://i2.wp.com/www.foodrepublic.com/wp-content/uploads/2018/03/purplesoup.jpg?fit=2200%2C2190&ssl=1"}], {comment: "commentaire de liste", callback: (el) => { console.log(el) }});
+				messenger.sender.list("Liste projets", [{primary: "Purple Soup",secondary: "La boîte à outils pour générer des paroles de chansons à l’aide de l’intelligence artificielle"},{primary: "Purple Soup",secondary: "La boîte à outils pour générer des paroles de chansons à l’aide de l’intelligence artificielle"},{primary: "Purple Soup",secondary: "La boîte à outils pour générer des paroles de chansons à l’aide de l’intelligence artificielle"}], {comment: "commentaire de liste", callback: (el) => { console.log(el) }});
+				messenger.receiver.list("Liste projets", [{primary: "Purple Soup"},{primary: "Purple Soup"},{primary: "Purple Soup"}], {comment: "commentaire de liste", callback: (el) => { console.log(el) }});
+
+				messenger.receiver.postal({img: "https://data.bingo/img/projects/robert_medium_3.png", title: "Robert de Barretin", subtitle: "Agent conversationnel", description: "un agent conversationnel pas comme les autres, qui s’adapte à votre personnalité et vous rend service à la maison comme au bureau", url: "https://robert.data.bingo/landing/"
+				}, {comment: "commentaire de carte postale", callback: (el) => { console.log(el) }});
+
+				messenger.sender.postal({img: "https://data.bingo/img/projects/robert_medium_3.png", title: "Robert de Barretin", subtitle: "Agent conversationnel", description: "un agent conversationnel pas comme les autres, qui s’adapte à votre personnalité et vous rend service à la maison comme au bureau", url: "https://robert.data.bingo/landing/"
+				}, {comment: "commentaire de carte postale", callback: (el) => { console.log(el) }});
+
+				messenger.sender.postal({title: "Robert de Barretin", subtitle: "Agent conversationnel", description: "un agent conversationnel pas comme les autres, qui s’adapte à votre personnalité et vous rend service à la maison comme au bureau", url: "https://robert.data.bingo/landing/"
+				}, {comment: "commentaire de carte postale", callback: (el) => { console.log(el) }});
+
+				messenger.receiver.postal({img: "https://data.bingo/img/projects/robert_medium_3.png", title: "Robert de Barretin", description: "un agent conversationnel pas comme les autres, qui s’adapte à votre personnalité et vous rend service à la maison comme au bureau"}, {comment: "commentaire de carte postale", callback: (el) => { console.log(el) }});
+
+				//messenger.sender.webcam({ comment: "Cliquez pour prendre une photo", callback: (video, stream, trigger) => { console.log(video); $(trigger).click(() => { stream.getTracks()[0].stop(); $(video).parent().remove(); messenger.sender.snapshoot(video); }); } });
+				//messenger.receiver.webcam({ comment: "Cliquez pour prendre une photo", callback: (video, stream, trigger) => { console.log(video); $(trigger).click(() => { stream.getTracks()[0].stop(); $(video).parent().remove(); messenger.sender.snapshoot(video); }); } });
+			</script>
+		</article>
+	</section>
+</body>
+</html>
