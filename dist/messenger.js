@@ -4,7 +4,25 @@
  * 
  * Messenger.js is a library for easily creating a chat interface and managing message generation
  *
- * Update: 25/07/20 Current V.0.2
+ * Message type to add :
+ * - Browsing carousel
+ * - Carousel
+ * - Map
+ * - 3D Object
+ * - Customizable audio
+ * - Improved video
+ * - Table
+ * - Snapshoot
+ * - Improved loader
+ * - Chips
+ *
+ * Improvement todo :
+ * - Add setter speed
+ * - Improve update methode
+ * - Theme manager // this.theme = "dark";
+ * - CSS loading
+ * 
+ * Update: 28/10/20 Current V.0.3
  * ----------------------------------------------------------------------------------------------------
  */
 
@@ -41,6 +59,16 @@ class Messenger{
                 //this.remove($("#"+id));
             }
         }
+
+        /* –––– CUSTOM EVENT LISTENER –––– */
+        const self = this;
+        
+        //AddPackage listener
+        document.addEventListener('messenger', function (e) {
+            //console.log(e.detail);
+            self[e.detail.user][e.detail.type](e.detail.content, {comment:e.detail.comment, callback:e.detail.callback});
+        }, false);
+
     }
 
     /** –––––––––––––––––––––––

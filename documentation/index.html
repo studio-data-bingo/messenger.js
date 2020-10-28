@@ -58,8 +58,8 @@
 				<pre><code class="language-javascript">messenger.application.text("A message from the application");</code></pre>
 			</div>
 		</article>
-		<article>
 
+		<article>
 			<h2>Methodes</h2>
 			
 			<div class="methode item">
@@ -302,6 +302,87 @@ loader.receiver.loader();</code></pre>
 				</script>
 
 			</div>
+		</article>
+
+		<article>
+			<h2>Custom Event</h2>
+			
+			<div class="methode item">
+				<h3>messenger</h3>
+				<p>You can easily generate a message anywhere in your javascript by calling the "messenger" event</p>
+
+				<h4>Usage</h4>
+				<pre><code class="language-javascript">//Don't forget to initialise messenger before dispatch an event
+//In the content variable put the values how they are expected by the function you call
+//Comment and callback are optional variable
+
+let event = new CustomEvent('messenger', {
+    'detail': {
+        user: 'sender',
+        type: 'link',
+        content: {
+            url: "https://data.bingo",
+            title: "Studio de design & technologie",
+            source: "https://data.bingo",
+            img: "https://data.bingo/img/index/equipe.jpg"
+        },
+        comment: "A fabulous team <3",
+        callback: (e) =>{
+            console.log(e);
+        }
+    }
+});
+document.dispatchEvent(event);
+
+let anotherEvent = new CustomEvent('messenger', {
+    'detail': {
+        user: 'receiver',
+        type: 'text',
+        content: "Omg they are so beautiful ❤️❤️"
+    }
+});
+document.dispatchEvent(anotherEvent);</code></pre>
+
+				<h4>Example</h4>
+				<div class="example">
+					<div id="event-message"></div>
+				</div>
+				<script>
+					let messengerEvent = new Messenger({container:"#event-message"});
+
+					let event = new CustomEvent('messenger', {
+					    'detail': {
+					        user: 'sender',
+					        type: 'link',
+					        content: {
+					            "url": "https://data.bingo",
+					            "title": "Studio de design & technologie",
+					            "source": "https://data.bingo",
+					            "img": "https://data.bingo/img/index/equipe.jpg"
+					        },
+					        comment: "A fabulous team <3",
+					        callback: (e) =>{
+					            console.log(e);
+					        }
+					    }
+					});
+					document.dispatchEvent(event);
+					
+					let anotherEvent = new CustomEvent('messenger', {
+					    'detail': {
+					        user: 'receiver',
+					        type: 'text',
+					        content: "Omg they are so beautiful ❤️❤️"
+					    }
+					});
+					document.dispatchEvent(anotherEvent);
+
+				</script>
+			</div>
+		</article>
+
+		<article>
+			Messenger.js is MIT Licensed, Copyright © 2020 Bastien DIDIER, https://data.bingo
 		</article>
 	</section>
 </body>
