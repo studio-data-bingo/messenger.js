@@ -11,4 +11,4 @@ If you want to easily change the appearance of your chat, you can use the online
 ## License
 MIT licensed
 
-Copyright (C) 2020 Basien Didier, https://data.bingo
+Copyright (c) 2020 Bastien DIDIER, https://data.bingo
