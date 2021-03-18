@@ -5,7 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1"/>
 	<title>Messenger.js style editor</title>
 	<link rel="stylesheet" href="./assets/style.css">
-	<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.7.7/dat.gui.min.js"></script>
 	<script src="./assets/app.js" defer></script>
 
@@ -48,7 +48,7 @@
 					}
 				);
 
-				$(document).click(() => {
+				document.addEventListener("click", (e) => {
 					messenger.update(ElToUpdate, "text", "J'ai été modifié : "+count+++" fois");
 				});
 				
@@ -93,8 +93,8 @@
 
 				messenger.receiver.postal({img: "https://data.bingo/img/projects/robert_medium_3.png", title: "Robert de Barretin", description: "un agent conversationnel pas comme les autres, qui s’adapte à votre personnalité et vous rend service à la maison comme au bureau"}, {comment: "commentaire de carte postale", callback: (el) => { console.log(el) }});
 
-				//messenger.sender.webcam({ comment: "Cliquez pour prendre une photo", callback: (video, stream, trigger) => { console.log(video); $(trigger).click(() => { stream.getTracks()[0].stop(); $(video).parent().remove(); messenger.sender.snapshoot(video); }); } });
-				//messenger.receiver.webcam({ comment: "Cliquez pour prendre une photo", callback: (video, stream, trigger) => { console.log(video); $(trigger).click(() => { stream.getTracks()[0].stop(); $(video).parent().remove(); messenger.sender.snapshoot(video); }); } });
+				//messenger.sender.webcam({ comment: "Cliquez pour prendre une photo", callback: (video, stream, trigger) => { console.log(video); trigger.click(() => { stream.getTracks()[0].stop(); video.parent().remove(); messenger.sender.snapshoot(video); }); } });
+				//messenger.receiver.webcam({ comment: "Cliquez pour prendre une photo", callback: (video, stream, trigger) => { console.log(video); trigger.click(() => { stream.getTracks()[0].stop(); video.parent().remove(); messenger.sender.snapshoot(video); }); } });
 			</script>
 		</article>
 	</section>

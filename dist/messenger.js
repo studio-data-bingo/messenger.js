@@ -22,7 +22,7 @@
  * - Theme manager // this.theme = "dark";
  * - CSS loading
  * 
- * Update: 28/10/20 Current V.0.3
+ * Update: 18/03/21 Current V.0.4
  * ----------------------------------------------------------------------------------------------------
  */
 
@@ -41,7 +41,13 @@ class Messenger{
         //create the messenger container
         this.container = container;
         this.id = this.generateId("messenger");
-        $(this.container).append(`<ul id="${this.id}" class="messenger"><li class="user sender receiver hidden"></li></ul>`);
+
+        //$(this.container).append(`<ul id="${this.id}" class="messenger"><li class="user sender receiver hidden"></li></ul>`);
+    
+        this.containerEl = document.querySelector(this.container);
+        document.querySelector(this.container).insertAdjacentHTML( 'beforeend', `<ul id="${this.id}" class="messenger"><li class="user sender receiver hidden"></li></ul>` );
+
+        this.messengerEl = document.getElementById(this.id);
         
         this.manager = new Manager();
         
@@ -51,21 +57,28 @@ class Messenger{
         this.automaticScroll = automaticScroll;
 
         this.remove = {
-            loader: () => { //Give the possibility to remove the loader in the queue
-                this.append(null);
+            /**
+             * Remove loading message
+             */
+            loader: () => {
+                document.getElementById(this.user+'-loader')?.parentElement.remove();
             },
-            message: (id) => {
-                console.warn("Removing message isn't possible for the moment - id : "+id);
-                //this.remove($("#"+id));
+            /**
+             * Remove a message
+             * 
+             * @param  {HTML Element} el
+             * 
+             */
+            message: (el) => {
+                el.parentElement.remove();
             }
         }
 
         /* –––– CUSTOM EVENT LISTENER –––– */
         const self = this;
         
-        //AddPackage listener
+        //Messenger Event listener
         document.addEventListener('messenger', function (e) {
-            //console.log(e.detail);
             self[e.detail.user][e.detail.type](e.detail.content, {comment:e.detail.comment, callback:e.detail.callback});
         }, false);
 
@@ -118,9 +131,12 @@ class Messenger{
         const message =  html ? this.surround(html+this.comment(comment)) : null;
         const self = this;
         this.manager.enqueue( () => {
-            self.removeLoader();
+            self.remove.loader();
             if(message){
-                $('#'+self.id).append(message);
+                
+                //$('#'+self.id).append(message);
+                this.messengerEl.insertAdjacentHTML( 'beforeend', message );
+
             }
             if(self.automaticScroll){
                 self.smoothScroll();
@@ -165,7 +181,8 @@ class Messenger{
      * Scroll through html, body & the container each time a message is added
      */
     smoothScroll(){
-        $('html, body, '+this.container).animate({ scrollTop: $(document).height() }, this.scrollSpeed);
+        scroll({ top: this.messengerEl.scrollHeight, behavior: "smooth" });
+        //$('html, body, '+this.container).animate({ scrollTop: $(document).height() }, this.scrollSpeed);
     }
 
     /**
@@ -177,7 +194,8 @@ class Messenger{
     generateId(string){
         let id = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
         if(string){
-            while ($("#"+string+"-"+id).length) {
+            //while ($("#"+string+"-"+id).length) {
+            while (document.getElementById(string+"-"+id) !== null) {
                 console.warn("#"+string+"-"+id+" already exist");
                 id = Math.floor((1 + Math.random()) * 0x10000).toString(16).substring(1);
             }
@@ -185,16 +203,6 @@ class Messenger{
         } else {
             return id;
         }        
-    }
-
-    /**
-     * Remove a message
-     * 
-     * @param  {HTML Element} el
-     * 
-     */
-    remove(el){
-        $(el).parent().remove();
     }
 
     /**
@@ -207,35 +215,19 @@ class Messenger{
      */
     update(el, type, options, {comment, callback} = {comment: null, callback: null}){
         if(type == "text"){
-            $(el).html(options);
+            
+            //$(el).html(options);
+            el.innerHTML = options;
+
             if(comment){
-                $(el).parent().append(this.comment(comment));                
+                //TO ADD
+                //$(el).parent().append(this.comment(comment));
+                //el.parentElement.querySelector(".comment").innerHTML =  this.comment(comment);
             }   
         } else {
             console.error("The type "+type+" isn't supported in the update methode");
         }
     }
-
-    /**
-     * /!\ SPEAK DEPRECATED
-     * use update() instead
-     * 
-     * @param  {String} utterance User utterance
-     * @param  {String} comment   Optional comment of the message
-     * 
-     */
-    //speak(utterance, comment = null){
-    //    if(this.senderSpeaking == false){
-    //        this.senderSpeaking = true;
-    //        this.text(utterance, {comment: comment});
-    //    } else {
-    //        //update utterance
-    //        $('#'+this.id+' li.sender:last .content').html(utterance); //.text()
-    //        if(comment){
-    //            $('#'+this.id+' li.sender:last').append(this.comment(comment));
-    //        }
-    //    }
-    //}
 
     /** –––––––––––––––––––––––
      *        MESSAGE TYPE
@@ -258,7 +250,7 @@ class Messenger{
                 comment:comment,
                 callback: () => {
                     if(callback instanceof Function){
-                        return callback($('#'+id)[0]);
+                        return callback( document.getElementById(id) );
                     }
                 }
             }
@@ -282,7 +274,7 @@ class Messenger{
                 comment:comment,
                 callback: () => {
                     if(callback instanceof Function){
-                        return callback($('#'+id)[0]);
+                        return callback( document.getElementById(id) );
                     }
                 }
             }
@@ -317,7 +309,7 @@ class Messenger{
                 comment:comment,
                 callback: () => {
                     if(callback instanceof Function){
-                        return callback($('#'+id)[0]);
+                        return callback( document.getElementById(id) );
                     }
                 }
             }
@@ -356,7 +348,7 @@ class Messenger{
                 comment:comment,
                 callback: () => {
                     if(callback instanceof Function){
-                        return callback($('#'+id)[0]);
+                        return callback( document.getElementById(id) );
                     }
                 }
             }
@@ -395,7 +387,7 @@ class Messenger{
                 comment:comment,
                 callback: () => {
                     if(callback instanceof Function){
-                        return callback($('#'+id)[0]);
+                        return callback( document.getElementById(id) );
                     }
                 }
             }
@@ -432,7 +424,7 @@ class Messenger{
                 comment:comment,
                 callback: () => {
                     if(callback instanceof Function){
-                        return callback($('#'+id)[0]);
+                        return callback( document.getElementById(id) );
                     }
                 }
             }
@@ -534,7 +526,7 @@ class Messenger{
                 comment:comment,
                 callback: () => {
                     if(callback instanceof Function){
-                        return callback($("#"+id)[0]);
+                        return callback( document.getElementById(id) );
                     }
                 }
             }
@@ -560,7 +552,7 @@ class Messenger{
                 comment:comment,
                 callback: () => {
                     if(callback instanceof Function){
-                        return callback($('#'+id)[0]);
+                        return callback( document.getElementById(id) );
                     }
                 }
             }
@@ -583,7 +575,7 @@ class Messenger{
                 comment:comment,
                 callback: () => {
                     if(callback instanceof Function){
-                        const el = $('#'+id)[0];
+                        const el = document.getElementById(id);
                         const ctx = el.getContext('2d');
                         return callback(el, ctx);
                     }
@@ -609,8 +601,8 @@ class Messenger{
                comment:comment,
                 callback: () => {
                     if(callback instanceof Function){
-                        const videoEl = $('#'+id)[0];
-                        const buttonEl = $("#button-"+id)[0];
+                        const videoEl = document.getElementById(id);
+                        const buttonEl = document.getElementById("button-"+id);
 
                         let localStream;
                         if (navigator.mediaDevices.getUserMedia) {
@@ -658,13 +650,6 @@ class Messenger{
             '    </div>'+
             '</div>'
         );
-    }
-
-    /**
-     * Remove loading message
-     */
-    removeLoader(){
-        $('#'+this.user+'-loader').parent().remove();
     }
 }
 

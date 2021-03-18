@@ -85,21 +85,24 @@ let gui = new dat.GUI();
 
 gui.addColor(params, 'backgroundColor').onChange(function(value) {
     backgroundColor = value;
-    $('html').css({'backgroundColor':backgroundColor});
+    
+    document.querySelector('html').style.backgroundColor = backgroundColor;
     
     if(lightOrDark(backgroundColor)){
-		$('#title').css({'color':'#ffffff'});
-		$('#description').css({'color':'#ffffff'});	
+		
+        document.getElementById('title').style.color = '#ffffff';
+        document.getElementById('description').style.color = '#ffffff';
+
 	} else {
-		$('#title').css({'color':'#000000'});
-		$('#description').css({'color':'#000000'});	
+        document.getElementById('title').style.color = '#000000';
+        document.getElementById('description').style.color = '#000000';
 	}
 
 });
 
 gui.add(params, 'containerWidth', 200, 1200).step(50).onChange(function(value) {
     containerWidth = value;
-    $('section').css({'maxWidth':containerWidth});
+    document.querySelector('section').style.maxWidth = containerWidth+"px";
 });
 
 gui.addColor(params, 'senderColor').onChange(function(value) {
@@ -262,7 +265,8 @@ function update(){
     	cssRoot += "	"+keys[i]+': '+root[keys[i]]+";\n";
     }
     cssRoot += "}";
-    $("#css").text(cssRoot);
+
+    document.getElementById('css').textContent = cssRoot;
 }
 
 update();

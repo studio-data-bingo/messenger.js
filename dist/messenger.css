@@ -34,6 +34,9 @@
 .messenger{
     padding:calc(var(--avatar-width) + 15px);
 }
+.messenger *{
+    margin:0;padding:0;
+}
 .messenger::after {
    content: " ";
    display: block;
