@@ -10,10 +10,7 @@
 	<link rel="stylesheet" href="./assets/prism.css">
 
 	<!-- MESSENGER.JS -->
-	<script src="../dist/messenger.js"></script>
-	<link rel="stylesheet" href="../dist/messenger.css">
-	<!------------------>
-	
+	<script src="../dist/messenger.min.js"></script>	
 </head>
 <body>
 	<section>
@@ -131,9 +128,9 @@ image.sender.image("mentalista-guinguette.jpg", {comment:"Image with callback (l
 				<script>
 					let image = new Messenger({container:"#image-message"});
 
-					image.receiver.image("https://mentalista.fr/img/exposition/futur-en-seine-gaite-lyrique_2016-06-09/medium/futur-en-seine-gaite-lyrique_2016-06-09_medium_1.jpg");
-					image.sender.image("https://mentalista.fr/img/exposition/futur-en-seine-gaite-lyrique_2016-06-09/medium/futur-en-seine-gaite-lyrique_2016-06-09_medium_1.jpg", {comment:"Image with comment"});
-					image.sender.image("https://mentalista.fr/img/exposition/futur-en-seine-gaite-lyrique_2016-06-09/medium/futur-en-seine-gaite-lyrique_2016-06-09_medium_1.jpg", {comment:"Image with callback (look at the console)", callback: (el) => { console.log(el) }});
+					image.receiver.image("https://studio.mentalista.com/img/projects/mentalista-guinguette/medium/mentalista-guinguette_medium_0.jpg");
+					image.sender.image("https://studio.mentalista.com/img/projects/mentalista-guinguette/medium/mentalista-guinguette_medium_0.jpg", {comment:"Image with comment"});
+					image.sender.image("https://studio.mentalista.com/img/projects/mentalista-guinguette/medium/mentalista-guinguette_medium_0.jpg", {comment:"Image with callback (look at the console)", callback: (el) => { console.log(el) }});
 				</script>
 			</div>
 
@@ -282,7 +279,7 @@ audio.sender.audio("https://sandbox.data.bingo/roue-des-datapepettes/sounds/anim
 
 			</div>
 
-			<div class="methode item">
+			<!--div class="methode item">
 				<h3>.loader()</h3>
 				<p>Show loading message</p>
 
@@ -301,7 +298,7 @@ loader.receiver.loader();</code></pre>
 					loader.receiver.loader();
 				</script>
 
-			</div>
+			</div-->
 		</article>
 
 		<article>
@@ -350,32 +347,41 @@ document.dispatchEvent(anotherEvent);</code></pre>
 				<script>
 					let messengerEvent = new Messenger({container:"#event-message"});
 
-					let event = new CustomEvent('messenger', {
-					    'detail': {
-					        user: 'sender',
-					        type: 'link',
-					        content: {
-					            "url": "https://data.bingo",
-					            "title": "Studio de design & technologie",
-					            "source": "https://data.bingo",
-					            "img": "https://data.bingo/img/index/equipe.jpg"
-					        },
-					        comment: "A fabulous team <3",
-					        callback: (e) =>{
-					            console.log(e);
-					        }
-					    }
+					messengerEvent.sender.link({
+						url: "https://data.bingo",
+						title: "Studio de design & technologie",
+						source: "https://data.bingo",
+						img: "https://data.bingo/img/index/equipe.jpg"
 					});
-					document.dispatchEvent(event);
-					
-					let anotherEvent = new CustomEvent('messenger', {
-					    'detail': {
-					        user: 'receiver',
-					        type: 'text',
-					        content: "Omg they are so beautiful ❤️❤️"
-					    }
-					});
-					document.dispatchEvent(anotherEvent);
+
+					messengerEvent.receiver.text("Omg they are so beautiful ❤️❤️");
+
+					//let event = new CustomEvent('messenger', {
+					//    'detail': {
+					//        user: 'sender',
+					//        type: 'link',
+					//        content: {
+					//            "url": "https://data.bingo",
+					//            "title": "Studio de design & technologie",
+					//            "source": "https://data.bingo",
+					//            "img": "https://data.bingo/img/index/equipe.jpg"
+					//        },
+					//        comment: "A fabulous team <3",
+					//        callback: (e) =>{
+					//            console.log(e);
+					//        }
+					//    }
+					//});
+					//document.dispatchEvent(event);
+					//
+					//let anotherEvent = new CustomEvent('messenger', {
+					//    'detail': {
+					//        user: 'receiver',
+					//        type: 'text',
+					//        content: "Omg they are so beautiful ❤️❤️"
+					//    }
+					//});
+					//document.dispatchEvent(anotherEvent);
 
 				</script>
 			</div>

@@ -22,7 +22,7 @@
  * - Theme manager // this.theme = "dark";
  * - CSS loading
  * 
- * Update: 18/03/21 Current V.0.4
+ * Update: 04/09/22 Current V.1.0
  * ----------------------------------------------------------------------------------------------------
  */
 
@@ -41,8 +41,6 @@ class Messenger{
         //create the messenger container
         this.container = container;
         this.id = this.generateId("messenger");
-
-        //$(this.container).append(`<ul id="${this.id}" class="messenger"><li class="user sender receiver hidden"></li></ul>`);
     
         this.containerEl = document.querySelector(this.container);
         document.querySelector(this.container).insertAdjacentHTML( 'beforeend', `<ul id="${this.id}" class="messenger"><li class="user sender receiver hidden"></li></ul>` );
@@ -51,11 +49,19 @@ class Messenger{
         
         this.manager = new Manager();
         
-        this.speed = speed; //TODO setter speed //Change speed to delay ?
+        this.speed = speed;
         this.scrollSpeed = (this.speed > 100 ? this.speed - 50 : 50);
 
         this.automaticScroll = automaticScroll;
 
+        //Importe CSS file
+        const link  = document.createElement('link');
+        link.rel  = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'https://robert.data.bingo/tools/messenger/dist/messenger.min.css';
+        link.media = 'all';
+        document.getElementsByTagName('head')[0].appendChild(link);
+        
         this.remove = {
             /**
              * Remove loading message
@@ -132,18 +138,9 @@ class Messenger{
         const self = this;
         this.manager.enqueue( () => {
             self.remove.loader();
-            if(message){
-                
-                //$('#'+self.id).append(message);
-                this.messengerEl.insertAdjacentHTML( 'beforeend', message );
-
-            }
-            if(self.automaticScroll){
-                self.smoothScroll();
-            }
-            if(callback instanceof Function){
-                callback();
-            }
+            if(message) self.messengerEl.insertAdjacentHTML( 'beforeend', message );
+            if(self.automaticScroll) self.smoothScroll();
+            if(callback instanceof Function) callback();
         }, this.speed);
     }
 
@@ -157,7 +154,6 @@ class Messenger{
      * Surround a message with a li element and the user class
      * 
      * @param  {String} msg  The HTML message content
-     * 
      * @return {String}      A surrounded message
      * 
      */
@@ -169,7 +165,6 @@ class Messenger{
      * Add a comment (or not)
      * 
      * @param  {String} comment Optional comment of the message
-     * 
      * @return {String}         Comment HTML element
      * 
      */
@@ -215,10 +210,7 @@ class Messenger{
      */
     update(el, type, options, {comment, callback} = {comment: null, callback: null}){
         if(type == "text"){
-            
-            //$(el).html(options);
             el.innerHTML = options;
-
             if(comment){
                 //TO ADD
                 //$(el).parent().append(this.comment(comment));
@@ -622,9 +614,8 @@ class Messenger{
         );
     }
 
-    //TODO
     /**
-     * Create a image message from a video element
+     * TO IMPROVE : Create a image message from a video element
      * 
      * @param  {Html element} video
      * 
